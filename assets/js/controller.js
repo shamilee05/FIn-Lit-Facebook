@@ -220,6 +220,19 @@ $.getJSON('activity.json', function(data) {
 	function displayFinalSlide(){
 
 			var xhttp = new XMLHttpRequest();
+
+
+
+			function reqListener (data) {
+			user_category = this.responseText;
+			console.log("printing user cat")
+			console.log(user_category)
+			document.getElementById("user_value").innerHTML = user_category;
+			}
+
+
+			xhttp.addEventListener("load", reqListener);
+			xhttp.open("GET", "/ip?q1="+result[0]+'&q2='+result[1]+'&q3='+result[2]+'&q4='+result[3]+'&q5='+result[4]+'&q6='+result[5]+'&q7='+result[6]+'&q8='+result[7]+'&q9='+result[8], true);
 			xhttp.onreadystatechange = function() {
 				if (this.readyState == 4 && this.status == 200) {
 					console.log("works");
@@ -237,18 +250,6 @@ $.getJSON('activity.json', function(data) {
 					}
 			}
 			};
-
-
-			function reqListener (data) {
-			user_category = this.responseText;
-			console.log("printing user cat")
-			console.log(user_category)
-			document.getElementById("user_value").innerHTML = user_category;
-			}
-
-
-			xhttp.addEventListener("load", reqListener);
-			xhttp.open("GET", "/ip?q1="+result[0]+'&q2='+result[1]+'&q3='+result[2]+'&q4='+result[3]+'&q5='+result[4]+'&q6='+result[5]+'&q7='+result[6]+'&q8='+result[7]+'&q9='+result[8], true);
 			xhttp.send();
 			
 			$(stage).append('<div class="questionText">You have finished the quiz!<br><br>Total questions: '+numberOfQuestions+'<br>Correct answers: '+score+user_category+'</div>');
