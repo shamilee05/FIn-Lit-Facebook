@@ -220,6 +220,7 @@ $.getJSON('activity.json', function(data) {
 	function displayFinalSlide(){
 
 			var xhttp = new XMLHttpRequest();
+			var xhttp2 = new XMLHttpRequest();
 
 
 
@@ -248,14 +249,34 @@ $.getJSON('activity.json', function(data) {
 					{
 						user_category = 'beginner';
 					}
+
+					new Promise(resolve => { 
+						setTimeout(function() { 
+							if(this.responseText == 'e')
+							{
+								user_category = 'expert';
+							}
+							if(this.responseText == 'i')
+							{
+								user_category = 'intermediate';
+							}
+							if(this.responseText == 'b')
+							{
+								user_category = 'beginner';
+							}
+							$(stage).append('<div class="questionText">You have finished the quiz!<br><br>Total questions: '+numberOfQuestions+'<br>Correct answers: '+score+user_category+'</div>');
+						}, 2000); 
+					}); 
+					
+	
+					xhttp2.open("GET", "http://localhost:3000/updateusercat?uc="+user_category, true);
+					xhttp2.send();
 			}
 			};
 			xhttp.send();
 			
-			$(stage).append('<div class="questionText">You have finished the quiz!<br><br>Total questions: '+numberOfQuestions+'<br>Correct answers: '+score+user_category+'</div>');
+			
 
-			xhttp.open("GET", "http://localhost:3000/updateusercat?uc="+user_category, true);
-			xhttp.send();
 
 		
 			
